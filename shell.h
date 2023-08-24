@@ -30,6 +30,7 @@ char *odam_read_lines(void);
 int odam_is_white_space(char *input_string);
 char *odam_str_tokenizer(char *input_string, const char *separator);
 int odam_echo(char **parsed_commands);
+int is_odam_path_available(char *full_command_path);
 
 /* ODAM_BUILT_IN_FUNCTIONS */
 int odam_exit(char **parsed_command);
