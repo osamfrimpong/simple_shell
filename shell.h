@@ -41,7 +41,7 @@ char *odam_shell_name;
 
 typedef int (*Command)(char **args);
 
-typedef struct built_in 
+typedef struct built_in
 {
 	char *name;
 	Command command;

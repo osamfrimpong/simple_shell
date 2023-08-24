@@ -68,7 +68,7 @@
 
 	- hsh : Shell program (executable file).
 
-	- test : 
+	- test :
 
 	- interactive__odam_functions.c - Makes the shell run in interactive mode.
 
