@@ -7,10 +7,34 @@
  */
 int odam_exit(char **parsed_commands)
 {
+	int exit_status;
+	char *error_message;
+
+
 	if (parsed_commands[1])
 	{
-		exit(atoi(parsed_commands[1]));
-		return (atoi(parsed_commands[1]));
+		exit_status = atoi(parsed_commands[1]);
+		if (exit_status < 0)
+		{
+
+			error_message = malloc(ODAM_MAX_BUFFER_SIZE * sizeof(char));
+
+			if (error_message == NULL)
+			{
+				perror(odam_shell_name);
+				return (1);
+			}
+
+			snprintf(error_message, 1024,
+					"%s: 1: %s: Illegal number: %d\n",
+					odam_shell_name, "exit", exit_status);
+
+			write(STDERR_FILENO, error_message, strlen(error_message));
+			free(error_message);
+		}
+		else
+			exit(exit_status);
+		return (exit_status);
 	}
 	else
 	{
