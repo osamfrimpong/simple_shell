@@ -75,7 +75,7 @@ int odam_write_error(char *imploded_command)
 		return (1);
 	}
 
-	snprintf(error_message, sizeof(error_message),
+	snprintf(error_message, 1024,
 	"%s: 1: %s: command not found\n",
 			odam_shell_name, imploded_command);
 
