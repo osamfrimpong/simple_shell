@@ -34,6 +34,8 @@ int is_odam_path_available(char *full_command_path);
 int odam_write_error(char *imploded_command);
 void odam_free_command_memory(char **parsed_command);
 void odam_do_system_call(char *command_to_execute, char **parsed_arguments);
+void odam_handle_file(char *file_name);
+void odam_process_file(char *file_name);
 
 /* ODAM_BUILT_IN_FUNCTIONS */
 int odam_exit(char **parsed_command);
