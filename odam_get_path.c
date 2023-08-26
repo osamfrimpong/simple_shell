@@ -35,9 +35,12 @@ char *get_command_path(char *command)
 			splitted_path = odam_str_tokenizer(NULL, ":");
 		}
 
+		free(full_path);
+
 	}
 
 		free(copy_of_system_path);
+		free(splitted_path);
 
 		return (NULL);
 }

@@ -8,10 +8,15 @@
 int odam_exit(char **parsed_commands)
 {
 	if (parsed_commands[1])
+	{
 		exit(atoi(parsed_commands[1]));
+		return (atoi(parsed_commands[1]));
+	}
 	else
+	{
 		exit(0);
-	return (atoi(parsed_commands[1]));
+		return (0);
+	}
 }
 
 /**
@@ -75,5 +80,4 @@ int odam_echo(char **parsed_commands)
 	}
 
 	return (0);
-
 }

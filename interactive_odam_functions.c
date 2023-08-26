@@ -22,6 +22,7 @@ void initiate_odam_interactive(void)
 		if (getline_result == -1)
 		{
 			shell_status = -1;
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{
@@ -29,7 +30,7 @@ void initiate_odam_interactive(void)
 			{
 				parsed_command = parse_command_input(command_input, ODAM_TOKEN_SEPARATOR);
 				execute_odam_command(parsed_command);
-				free(parsed_command);
+				odam_free_command_memory(parsed_command);
 			}
 
 		}

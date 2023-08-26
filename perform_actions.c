@@ -7,10 +7,12 @@
 
 void perform_actions(char **parsed_arguments)
 {
-	char *shell_name;
+	static char *shell_name;
+	char *imploded_command;
 	pid_t odam_process_id;
 	char *command_to_execute = is_odam_path_available(parsed_arguments[0])
-	? parsed_arguments[0] : get_command_path(parsed_arguments[0]);
+								   ? parsed_arguments[0]
+								   : get_command_path(parsed_arguments[0]);
 
 	shell_name = odam_shell_name;
 
@@ -33,8 +35,9 @@ void perform_actions(char **parsed_arguments)
 	}
 	else
 	{
-		printf("%s: 1: %s: command not found\n",
-			   shell_name, odam_implode(parsed_arguments, " "));
+		imploded_command = odam_implode(parsed_arguments, " ");
+		odam_write_error(imploded_command);
+		free(imploded_command);
 	}
 }
 
@@ -47,11 +50,37 @@ int is_odam_path_available(char *full_command_path)
 {
 	int is_available = 0;
 
-	if (access(full_command_path, F_OK) == 0
-	&& access(full_command_path, X_OK) == 0)
+	if (access(full_command_path, F_OK) == 0 &&
+		access(full_command_path, X_OK) == 0)
 	{
 		is_available = 1;
 	}
 	return (is_available);
 }
 
+/**
+ * odam_write_error - prints error message to stderr
+ * @imploded_command: pointer to command as string
+ * Return: int
+ */
+int odam_write_error(char *imploded_command)
+{
+	char *error_message;
+
+	error_message = malloc(ODAM_MAX_BUFFER_SIZE * sizeof(char));
+
+	if (error_message == NULL)
+	{
+		perror(odam_shell_name);
+		return (1);
+	}
+
+	snprintf(error_message, sizeof(error_message),
+	"%s: 1: %s: command not found\n",
+			odam_shell_name, imploded_command);
+
+	write(STDERR_FILENO, error_message, strlen(error_message));
+	free(error_message);
+
+	return (0);
+}

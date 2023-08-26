@@ -31,6 +31,8 @@ int odam_is_white_space(char *input_string);
 char *odam_str_tokenizer(char *input_string, const char *separator);
 int odam_echo(char **parsed_commands);
 int is_odam_path_available(char *full_command_path);
+int odam_write_error(char *imploded_command);
+void odam_free_command_memory(char **parsed_command);
 
 /* ODAM_BUILT_IN_FUNCTIONS */
 int odam_exit(char **parsed_command);
@@ -42,12 +44,15 @@ char *odam_shell_name;
 
 typedef int (*Command)(char **args);
 
+/**
+ * struct built_in - a dog's basic info
+ * @name: name of command
+ * @command: pointer to command
+ */
 typedef struct built_in
 {
 	char *name;
 	Command command;
 } BuiltIn;
-
-
 
 #endif /* ODAM_SHELL_H */
