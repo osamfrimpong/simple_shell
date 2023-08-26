@@ -7,14 +7,29 @@
 
 void perform_actions(char **parsed_arguments)
 {
-	static char *shell_name;
-	char *imploded_command;
-	pid_t odam_process_id;
-	char *command_to_execute = is_odam_path_available(parsed_arguments[0])
-								   ? parsed_arguments[0]
-								   : get_command_path(parsed_arguments[0]);
+	char *full_command_path;
 
-	shell_name = odam_shell_name;
+	if (is_odam_path_available(parsed_arguments[0]) == 1)
+	{
+		odam_do_system_call(parsed_arguments[0], parsed_arguments);
+	}
+	else
+	{
+		full_command_path = get_command_path(parsed_arguments[0]);
+		odam_do_system_call(full_command_path, parsed_arguments);
+		free(full_command_path);
+	}
+}
+
+/**
+ * odam_do_system_call - function to execute entered commands
+ * @command_to_execute: actual command to be executed
+ * @parsed_arguments: parsed inputted arguments
+ */
+void odam_do_system_call(char *command_to_execute, char **parsed_arguments)
+{
+	pid_t odam_process_id;
+	char *imploded_command;
 
 	if (command_to_execute != NULL)
 	{
@@ -22,11 +37,11 @@ void perform_actions(char **parsed_arguments)
 		if (odam_process_id == 0)
 		{
 			execve(command_to_execute, parsed_arguments, NULL);
-			perror(shell_name);
+			perror(odam_shell_name);
 		}
 		else if (odam_process_id < 0)
 		{
-			perror(strcat(shell_name, " :1 : "));
+			perror(strcat(odam_shell_name, " :1 : "));
 		}
 		else
 		{
@@ -76,8 +91,8 @@ int odam_write_error(char *imploded_command)
 	}
 
 	snprintf(error_message, 1024,
-	"%s: 1: %s: command not found\n",
-			odam_shell_name, imploded_command);
+			 "%s: 1: %s: command not found\n",
+			 odam_shell_name, imploded_command);
 
 	write(STDERR_FILENO, error_message, strlen(error_message));
 	free(error_message);

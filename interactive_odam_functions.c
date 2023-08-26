@@ -7,7 +7,7 @@
 
 void initiate_odam_interactive(void)
 {
-	char *command_input = malloc(sizeof(char) * ODAM_TOKEN_BUFFER_SIZE);
+	char *command_input;
 	size_t odam_linecap = 0;
 	int shell_status = 1;
 	ssize_t getline_result;
@@ -21,6 +21,7 @@ void initiate_odam_interactive(void)
 
 		if (getline_result == -1)
 		{
+			free(command_input);
 			shell_status = -1;
 			exit(EXIT_SUCCESS);
 		}
@@ -36,5 +37,5 @@ void initiate_odam_interactive(void)
 		}
 	}
 
-	free(command_input);
+/*	free(command_input); */
 }

@@ -16,7 +16,7 @@ void initiate_odam_non_interactive(void)
 		{
 		parsed_command = parse_command_input(command_inputs, ODAM_TOKEN_SEPARATOR);
 		execute_odam_command(parsed_command);
-		free(parsed_command);
+		odam_free_command_memory(parsed_command);
 		}
 		free(command_inputs);
 	}
