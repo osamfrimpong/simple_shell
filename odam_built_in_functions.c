@@ -66,8 +66,35 @@ int odam_env(char **parsed_commands __attribute__((unused)))
  * @parsed_commands: parsed command to execute
  * Return: int
  */
-int odam_cd(char **parsed_commands __attribute__((unused)))
+int odam_cd(char **parsed_commands)
 {
+	char odam_previous_dir[1024];
+
+	getcwd(odam_previous_dir, sizeof(odam_previous_dir));
+
+	if (parsed_commands[1] == NULL)
+	{
+		parsed_commands[1] = getenv("HOME");
+	}
+	else if (strcmp(parsed_commands[1], "-") == 0)
+	{
+		parsed_commands[1] = getenv("OLDPWD");
+		if (parsed_commands[1] == NULL)
+		{
+			perror(odam_shell_name);
+			return (1);
+		}
+	}
+
+	if (chdir(parsed_commands[1]) != 0)
+	{
+		perror(odam_shell_name);
+	}
+	else
+	{
+		setenv("OLDPWD", odam_previous_dir, 1);
+		setenv("PWD", parsed_commands[1], 1);
+	}
 	return (0);
 }
 
