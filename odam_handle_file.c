@@ -72,7 +72,7 @@ void odam_process_file(char *file_name)
 
 		write(STDERR_FILENO, error_message, strlen(error_message));
 		free(error_message);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 
 	if (stat(file_name, &odam_file_struct) == -1)
@@ -83,8 +83,8 @@ void odam_process_file(char *file_name)
 
 	if (odam_file_struct.st_size == 0)
 	{
-		fprintf(stderr, "File is empty\n");
-		exit(EXIT_FAILURE);
+		/* fprintf(stderr, "File is empty\n"); */
+		exit(EXIT_SUCCESS);
 	}
 
 	odam_handle_file(file_name);
