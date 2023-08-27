@@ -1,3 +1,5 @@
-ls -la
-env
-echo $$
+/bin/ls
+/bin/ls
+/bin/ls
+
+
